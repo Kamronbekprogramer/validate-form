@@ -15,11 +15,10 @@ const Index = () => {
       }}
     >
       <Typography variant="h1" component="h1" sx={{ mb: 4 }}>
-        Main
+        Salom!
       </Typography>
       <Typography variant="h6" component="p" sx={{ textAlign: "center" }}>
-        Welcome to the main page! Here you can find various features and
-        functionalities.
+        Himchestka.uz saytiga hush kelibsiz!
       </Typography>
     </Box>
   );

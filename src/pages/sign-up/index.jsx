@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Link } from "@mui/material";
 import { auth } from "@service";
 import { SignUpModal } from "@modal";
 import { Formik } from "formik";
@@ -39,12 +39,15 @@ const Index = () => {
               phone_number: "",
             }}
             validationSchema={Yup.object({
-              email: Yup.string()
-                .email("Invalid email address")
-                .required("Required"),
-              full_name: Yup.string().required("Required"),
-              password: Yup.string().required("Required"),
-              phone_number: Yup.string().required("Required"),
+              email: Yup.string().email('Yaroqsiz elektron pochta manzili').required('Majburiy'),
+              full_name: Yup.string().required('Majburiy'),
+              password: Yup.string()
+                .min(6, 'Parol kamida 6 ta belgidan iborat bo\'lishi kerak')
+                .matches(/[A-Z]/, 'Parol kamida bitta katta harfdan iborat bo\'lishi kerak')
+                .matches(/[a-z]/, 'Parol kamida bitta kichik harfdan iborat bo\'lishi kerak')
+                .matches(/[0-9]/, 'Parolda kamida bitta raqam bo\'lishi kerak')
+                .required('Majburiy'),
+              phone_number: Yup.string().matches(/^\+998[0-9]{9}$/, 'Telefon raqami +998XXXXXXXXX formatida bo\'lishi kerak').required('Majburiy'),            
             })}
             onSubmit={handleSubmit}
           >
@@ -109,6 +112,7 @@ const Index = () => {
                 {errors.submit && (
                   <p className="text-red-500 text-center">{errors.submit}</p>
                 )}
+                <Link href="/">Sign In</Link>
                 <Button
                   variant="contained"
                   type="submit"

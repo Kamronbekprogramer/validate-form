@@ -1,4 +1,4 @@
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Typography, Link } from "@mui/material";
 import { auth } from "@service";
 import { NavLink, useNavigate } from "react-router-dom";
 import { Formik } from "formik";
@@ -17,7 +17,7 @@ const Index = () => {
         toast.success("Login muvaffaqiyatli bajarildi!");
         setTimeout(() => {
           navigate("/main");
-        }, 1500); // Delay navigation by 1.5 seconds
+        }, 1500); 
       }
     } catch (error) {
       console.log(error);
@@ -37,9 +37,14 @@ const Index = () => {
           initialValues={{ email: "", password: "" }}
           validationSchema={Yup.object({
             email: Yup.string()
-              .email("Noto'g'ri email manzili")
+              .email("Yaroqsiz elektron pochta manzili")
               .required("Majburiy"),
-            password: Yup.string().required("Majburiy"),
+              password: Yup.string()
+              .min(6, 'Parol kamida 6 ta belgidan iborat bo\'lishi kerak')
+              .matches(/[A-Z]/, 'Parol kamida bitta katta harfdan iborat bo\'lishi kerak')
+              .matches(/[a-z]/, 'Parol kamida bitta kichik harfdan iborat bo\'lishi kerak')
+              .matches(/[0-9]/, 'Parolda kamida bitta raqam bo\'lishi kerak')
+              .required('Majburiy'),
           })}
           onSubmit={handleSubmit}
         >
@@ -80,18 +85,18 @@ const Index = () => {
               {errors.submit && (
                 <p className="text-red-500 text-center">{errors.submit}</p>
               )}
-              <NavLink to="/sign-up" className="text-blue-500 hover:underline">
-                Register Page
-              </NavLink>
               <NavLink
                 to="/forgot-password"
                 className="text-blue-500 hover:underline"
               >
-                Forgot Password
+                Forgot Password?
               </NavLink>
               <Button variant="contained" type="submit" disabled={isSubmitting}>
                 Sign In
               </Button>
+              <Typography variant="body2" align="center" sx={{ mt: 1 }}>
+                Don't have an account? <Link href="/sign-up">Register here</Link>
+              </Typography>
             </form>
           )}
         </Formik>
